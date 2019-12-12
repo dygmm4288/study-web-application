@@ -4,7 +4,8 @@
   "description": "배운 것을 토대로 만들어보는 사용자의 공부를 위한 웹 어플리케이션",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --hot"
   },
   "repository": {
     "type": "git",
