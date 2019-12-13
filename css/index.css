@@ -1,0 +1,13 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content:space-between;
+}
+main {
+    overflow-y: auto;
+    max-height: 520px;
+    height: 90vh;
+}

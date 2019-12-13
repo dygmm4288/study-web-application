@@ -6,12 +6,11 @@ const Icon = require('../Icon');
 const Footer = memo(() => {
     return (
         <>
-            <footer>
-                <Icon />
-                <Icon />
-                <Icon />
-                <Icon />
-                <Icon />
+            <footer className="flex">
+                <Icon iconInfo={{ 'class': 'fas fa-calendar-alt', click: (e) => { e.preventDefault() } }} />
+                <Icon iconInfo={{ 'class': 'fas fa-bell', click: (e) => { e.preventDefault() } }} />
+                <Icon iconInfo={{ 'class': 'fas fa-home', click: (e) => { e.preventDefault() } }} />
+                <Icon iconInfo={{ 'class': 'fas fa-chart-bar', click: (e) => { e.preventDefault() } }} />
             </footer>
         </>
     );

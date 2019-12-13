@@ -5,9 +5,9 @@ const { useState, useRef, memo } = React;
 const Main = memo(() => {
     return (
         <>
-            <div id="Main">
-
-            </div>
+            <main>
+                <div>아아ㅏ</div>
+            </main>
         </>
     );
 });
