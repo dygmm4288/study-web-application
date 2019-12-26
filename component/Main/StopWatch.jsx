@@ -95,13 +95,15 @@ const parseHours = strHours => {
 const initialState = {
 	subjects: [],
 	isCreate: false,
-	totalTime: "00:00:00"
+	totalTime: "00:00:00",
+	onUpdate: false
 };
 
 export const StopWatchContext = createContext({
 	subjects: [],
 	isCreate: false,
-	dispatch: () => {}
+	dispatch: () => {},
+	onUpdate: false
 });
 export const COUNT_TOTAL_TIME = "COUNT_TOTAL_TIME";
 export const ADD_SUBJECT = "ADD_SUBJECT";
@@ -171,8 +173,11 @@ const reducer = (state, action) => {
 			};
 		}
 		case UPDATE_SUBJECT: {
+			const onUpdate = state.onUpdate ? false : true;
+
 			return {
-				...state
+				...state,
+				onUpdate: onUpdate
 			};
 		}
 		case COUNT_TOTAL_TIME: {
@@ -196,7 +201,7 @@ const reducer = (state, action) => {
 };
 const StopWatch = memo(() => {
 	const [state, dispatch] = useReducer(reducer, initialState);
-	const { subjects, isCreate } = state;
+	const { subjects, isCreate, onUpdate } = state;
 
 	const value = useMemo(() => {
 		return {
@@ -213,6 +218,7 @@ const StopWatch = memo(() => {
 		<StopWatchContext.Provider value={value}>
 			<div className="main">
 				{isCreate && <SubjectCreate></SubjectCreate>}
+				{onUpdate && <div>ONUPDATEPAGE</div>}
 				<div className="stopWatch">
 					<div className="stopWatch__time">
 						<p className="time__date">{today}</p>

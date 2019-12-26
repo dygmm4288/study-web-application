@@ -1,32 +1,47 @@
-import React, { memo, useRef, useEffect, useState, useContext } from "react";
+import React, {
+	memo,
+	useRef,
+	useEffect,
+	useState,
+	useContext,
+	useCallback
+} from "react";
 import Icon from "../Common/Icon.jsx";
 import { StopWatchContext, ADD_SUBJECT, IS_CREATE } from "./StopWatch";
 //dispatch
 const SubjectCreate = memo(() => {
 	const [value, setValue] = useState("");
+	const [checkLists, setCheckLists] = useState([""]);
 	const inputRef = useRef(null);
 	const { dispatch } = useContext(StopWatchContext);
-	useEffect(() => {
-		inputRef.current.focus();
-	}, []);
-	const onChangeInput = e => {
-		return setValue(e.target.value);
-	};
 
-	const AddSubject = e => {
+	const onChangeInput = useCallback(() => {
+		e => {
+			return setValue(e.target.value);
+		};
+	}, []);
+
+	const AddSubject = useCallback(() => {
 		const subjectName = inputRef.current.value;
 		dispatch({ type: ADD_SUBJECT, subjectName });
-	};
-	const Cancle = e => {
-		e.preventDefault();
-		const isCreate = false;
+	}, []);
+	const Cancle = () => {
+		const isCreate = true;
 		dispatch({ type: IS_CREATE, isCreate });
 	};
-	const onSubmitForm = e => {
-		e.preventDefault();
-		const subjectName = inputRef.current.value;
-		dispatch({ type: ADD_SUBJECT, subjectName });
-	};
+
+	const onSubmitForm = useCallback(() => {
+		e => {
+			e.preventDefault();
+			const subjectName = inputRef.current.value;
+			dispatch({ type: ADD_SUBJECT, subjectName });
+		};
+	}, []);
+	const AddCheckList = useCallback(() => {
+		const checkList = [...checkLists];
+		checkList.push("");
+		setCheckLists(checkList);
+	}, [checkLists]);
 
 	return (
 		<>
@@ -40,6 +55,26 @@ const SubjectCreate = memo(() => {
 					type="text"
 					required
 				/>
+				<div className="form__checkList">
+					<label className="form__label">체크 리스트</label>
+					<Icon
+						iconInfo={{
+							className: "fas fa-plus",
+							onClickIcon: AddCheckList
+						}}
+					/>
+				</div>
+				{checkLists.map((list, i) => {
+					return (
+						<input
+							key={"checkList" + i}
+							type="text"
+							placeholder="ex)영어 1단원 속독"
+							className="form__input"
+							onChange={onChangeInput}
+						/>
+					);
+				})}
 				<div className="form__select">
 					<Icon
 						iconInfo={{
@@ -56,5 +91,4 @@ const SubjectCreate = memo(() => {
 		</>
 	);
 });
-
 export default SubjectCreate;

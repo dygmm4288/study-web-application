@@ -23,12 +23,10 @@ const SubjectListBar = memo(({ subjectName, timeOn }) => {
 	const { dispatch } = useContext(StopWatchContext);
 
 	const onClickEllpsis = useCallback(() => {
-		dispatch({ type: UPDATE_SUBJECT, subjectName });
+		dispatch({ type: ON_UPDATE_PAGE });
 	}, []);
 
 	const onClickPlayIcon = useCallback(() => {
-		//해당 버튼을 눌르면 시간을 측정되거나 멈춤.
-		//PLAY CIRCLE이 true면 스타트 아니면.. 멈춰야지
 		iconClass === PLAY_CIRCLE
 			? dispatch({ type: START_TIME, subjectName })
 			: dispatch({ type: END_TIME, subjectName });

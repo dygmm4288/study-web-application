@@ -1,3 +1,7 @@
+* {
+	margin: 0;
+	padding: 0;
+}
 #root,
 header,
 footer,
@@ -63,23 +67,24 @@ header .header__logo {
 }
 
 .stopWatch__subject {
-	flex: 1 0 65%;
+	flex: 1 1 65%;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
+	overflow-y: auto;
 }
 .stopWatch__subject .subject__list {
-	flex: 0.05 0;
+	flex: none;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
 	color: gray;
-	overflow-y: scroll;
 }
 /* stopWatch subjectList_bar */
 .stopWatch__subject .subjectList__bar {
+	flex: none;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -134,5 +139,10 @@ header .header__logo {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: row;
+}
+.popup_form .form__checkList {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 /* Footer */
