@@ -10,10 +10,41 @@ import React, {
 import Icon from "../Common/Icon.jsx";
 import SubjectCreate from "../Main/SubjectCreate.jsx";
 import SubjectListBar from "../Main/SubjectListBar.jsx";
-
+Date.prototype.format = function(f) {
+	if (!this.valueOf()) {
+		return " ";
+	}
+	const date = this;
+	String.prototype.zero = function() {
+		return "0" + this;
+	};
+	Number.prototype.zero = function() {
+		return this.toString().zero();
+	};
+	return f.replace(/(yyyy|MM|DD|dd|hh|mm|ss)/gi, replaced => {
+		switch (replaced) {
+			case "yyyy":
+				return date.getFullYear();
+			case "MM":
+				return date.getMonth() + 1;
+			case "DD":
+				return date.getDate();
+			case "dd":
+				return date.getDate();
+			case "hh":
+				return (h = date.getHours()) < 10 ? h.zero() : h;
+			case "mm":
+				return (m = date.getMinutes()) < 10 ? m.zero() : m;
+			case "ss":
+				return (s = date.getSeconds()) < 10 ? s.zero() : s;
+			default:
+				return replaced;
+		}
+	});
+};
 const date = new Date();
-const today =
-	date.getFullYear() + ". " + (date.getMonth() + 1) + ". " + date.getDate();
+
+const today = date.format("yyyy.MM.DD");
 const toStringHours = ({ hours, min, sec }) => {
 	let result = "";
 	if (hours < 10) {
