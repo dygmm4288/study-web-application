@@ -8,10 +8,6 @@ footer,
 .main {
 	display: flex;
 }
-body {
-	padding: 0;
-	margin: 0;
-}
 #root {
 	justify-content: flex-start;
 	flex-direction: column;
@@ -25,9 +21,12 @@ header,
 footer {
 	justify-content: space-between;
 	padding: 15px;
+	height: 15%;
 	background-color: #f9b39b;
-	flex: 0 1 15%;
 	align-items: center;
+}
+footer {
+	margin-top: auto;
 }
 
 /* Header */
@@ -37,7 +36,7 @@ header .header__logo {
 }
 /* Main */
 .main {
-	flex: 1 0 70%;
+	height: 70%;
 	display: flex;
 	flex-direction: column;
 	background-color: white;
@@ -67,12 +66,13 @@ header .header__logo {
 }
 
 .stopWatch__subject {
-	flex: 1 1 65%;
 	display: flex;
+	max-height: 65%;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
-	overflow-y: auto;
+	flex: 0 0 auto;
+	overflow: auto;
 }
 .stopWatch__subject .subject__list {
 	flex: none;
@@ -121,6 +121,7 @@ header .header__logo {
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
+	overflow: auto;
 }
 .popup_form .form__label {
 	margin: 0px;

@@ -1,0 +1,62 @@
+/* @mixin */
+@mixin flex-container {
+	display: flex;
+	overflow: hidden;
+	* {
+		flex: 0 0 auto;
+		overflow: auto;
+	}
+}
+@mixin column {
+	flex-direction: column;
+}
+@mixin row {
+	flex-direction: row;
+}
+@mixin space-between {
+	justify-content: space-between;
+}
+/* const */
+$basic-color: #f9b39b;
+/* content */
+* {
+	margin: 0;
+	padding: 0;
+}
+html,
+body,
+#root {
+	height: 100%;
+}
+
+#root,
+header,
+footer,
+.main {
+	@include flex-container;
+	@include column;
+}
+#root {
+	min-height: 640px;
+	min-width: 360px;
+}
+
+/* Header */
+header,
+footer {
+	@include space-between;
+	@include row;
+	background-color: $basic-color;
+	padding: 15px;
+}
+
+header .header__logo {
+	margin-left: 10px;
+	width: 70%;
+}
+/* Main */
+.main {
+	height: 85%;
+	background-color: white;
+}
+/* StopWatch */

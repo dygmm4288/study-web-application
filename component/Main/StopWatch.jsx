@@ -21,6 +21,7 @@ Date.prototype.format = function(f) {
 	Number.prototype.zero = function() {
 		return this.toString().zero();
 	};
+	var h, m, s;
 	return f.replace(/(yyyy|MM|DD|dd|hh|mm|ss)/gi, replaced => {
 		switch (replaced) {
 			case "yyyy":
@@ -45,37 +46,6 @@ Date.prototype.format = function(f) {
 const date = new Date();
 
 const today = date.format("yyyy.MM.DD");
-const toStringHours = ({ hours, min, sec }) => {
-	let result = "";
-	if (hours < 10) {
-		result += "0";
-		result += hours;
-	} else if (min > 59) {
-		result += hours + 1;
-	} else {
-		result += hours;
-	}
-	result += ":";
-	if (min < 10) {
-		result += "0";
-		result += min;
-	} else if (sec > 59) {
-		result += min + 1;
-	} else {
-		result += min;
-	}
-	result += ":";
-	if (sec < 10) {
-		result += "0";
-		result += sec;
-	} else if (sec > 59) {
-		result += "00";
-	} else {
-		result += sec;
-	}
-
-	return result;
-};
 const parseHours = strHours => {
 	if (typeof strHours !== "string") {
 		return "Not String";
@@ -185,11 +155,7 @@ const reducer = (state, action) => {
 			const date = new Date();
 			const { hours, min, sec } = parseHours(state.totalTime);
 			date.setHours(hours, min, sec + 1);
-			const nextHours = toStringHours({
-				hours: date.getHours(),
-				min: date.getMinutes(),
-				sec: date.getSeconds()
-			});
+			const nextHours = date.format("hh:mm:ss");
 			return {
 				...state,
 				totalTime: nextHours
