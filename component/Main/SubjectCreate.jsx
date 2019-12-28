@@ -15,6 +15,10 @@ const SubjectCreate = memo(() => {
 	const inputRef = useRef(null);
 	const { dispatch } = useContext(StopWatchContext);
 
+	useEffect(() => {
+		inputRef.current.focus();
+	}, []);
+
 	const onChangeInput = useCallback(() => {
 		e => {
 			return setValue(e.target.value);
@@ -23,8 +27,13 @@ const SubjectCreate = memo(() => {
 
 	const AddSubject = useCallback(() => {
 		const subjectName = inputRef.current.value;
+		if (!subjectName) {
+			alert("과목 이름을 입력해주세요");
+			return;
+		}
 		dispatch({ type: ADD_SUBJECT, subjectName });
 	}, []);
+
 	const Cancle = () => {
 		const isCreate = true;
 		dispatch({ type: IS_CREATE, isCreate });
@@ -34,9 +43,14 @@ const SubjectCreate = memo(() => {
 		e => {
 			e.preventDefault();
 			const subjectName = inputRef.current.value;
+			if (!subjectName) {
+				alert("과목 이름을 입력해주세요");
+				return;
+			}
 			dispatch({ type: ADD_SUBJECT, subjectName });
 		};
 	}, []);
+
 	const AddCheckList = useCallback(() => {
 		const checkList = [...checkLists];
 		checkList.push("");
@@ -45,7 +59,7 @@ const SubjectCreate = memo(() => {
 
 	return (
 		<>
-			<form className="popup_form" onSubmit={onSubmitForm}>
+			<form className="popup popup_form" onSubmit={onSubmitForm}>
 				<label className="form__label">측정할 과목 이름</label>
 				<input
 					ref={inputRef}
@@ -56,25 +70,29 @@ const SubjectCreate = memo(() => {
 					required
 				/>
 				<div className="form__checkList">
-					<label className="form__label">체크 리스트</label>
-					<Icon
-						iconInfo={{
-							className: "fas fa-plus",
-							onClickIcon: AddCheckList
-						}}
-					/>
-				</div>
-				{checkLists.map((list, i) => {
-					return (
-						<input
-							key={"checkList" + i}
-							type="text"
-							placeholder="ex)영어 1단원 속독"
-							className="form__input"
-							onChange={onChangeInput}
+					<div className="form__label">
+						<label>체크 리스트</label>
+						<Icon
+							iconInfo={{
+								className: "fas fa-plus",
+								onClickIcon: AddCheckList
+							}}
 						/>
-					);
-				})}
+					</div>
+					<div className="form__content">
+						{checkLists.map((list, i) => {
+							return (
+								<input
+									key={"checkList" + i}
+									type="text"
+									placeholder="ex)영어 1단원 속독"
+									className="form__input"
+									onChange={onChangeInput}
+								/>
+							);
+						})}
+					</div>
+				</div>
 				<div className="form__select">
 					<Icon
 						iconInfo={{

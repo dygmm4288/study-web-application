@@ -23,7 +23,7 @@ const SubjectListBar = memo(({ subjectName, timeOn }) => {
 	const { dispatch } = useContext(StopWatchContext);
 
 	const onClickEllpsis = useCallback(() => {
-		dispatch({ type: ON_UPDATE_PAGE });
+		dispatch({ type: UPDATE_SUBJECT, subjectName });
 	}, []);
 
 	const onClickPlayIcon = useCallback(() => {

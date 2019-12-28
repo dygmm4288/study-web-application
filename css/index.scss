@@ -1,3 +1,5 @@
+@import "./StopWatch.scss";
+@import "./Popup.scss";
 /* @mixin */
 @mixin flex-container {
 	display: flex;
@@ -59,4 +61,3 @@ header .header__logo {
 	height: 85%;
 	background-color: white;
 }
-/* StopWatch */

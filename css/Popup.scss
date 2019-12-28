@@ -1,0 +1,59 @@
+@mixin flex-container {
+	display: flex;
+	overflow: hidden;
+	* {
+		flex: 0 0 auto;
+		overflow: auto;
+	}
+}
+$popup-color: #f0e2e2;
+.popup {
+	width: 200px;
+	height: 300px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -100px;
+	margin-top: -150px;
+	background-color: $popup-color;
+	@include flex-container;
+	flex-direction: column;
+	padding: 10px;
+}
+.popup_form {
+	.form__label {
+		font-size: 20px;
+		color: #fa835c;
+	}
+	.form__input {
+		margin: 10px 0;
+		font-size: 15px;
+		width: 90%;
+		background-color: $popup-color;
+		border: 0px;
+	}
+	.form__select {
+		@include flex-container;
+		justify-content: space-between;
+		flex-direction: row;
+	}
+	.form__checkList {
+		@include flex-container;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: column;
+		.form__label {
+			@include flex-container;
+			justify-content: space-between;
+			align-self: stretch;
+
+			.fa-plus {
+				color: black;
+			}
+		}
+		.form__content {
+			@include flex-container;
+			flex-direction: column;
+		}
+	}
+}

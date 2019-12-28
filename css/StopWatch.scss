@@ -1,0 +1,65 @@
+@mixin flex-container {
+	display: flex;
+	overflow: hidden;
+	* {
+		flex: 0 0 auto;
+		overflow: auto;
+	}
+}
+.stopWatch {
+	@include flex-container;
+	flex-direction: column;
+	justify-content: flex-start;
+	.stopWatch__time {
+		text-align: center;
+		padding: 10px;
+		background-color: #f9b39b;
+	}
+	.stopWatch__subject {
+		@include flex-container;
+		flex-wrap: nowrap;
+	}
+}
+.stopWatch__time {
+	.time__date {
+		margin-bottom: 10px;
+		font-size: 20px;
+	}
+	.time__study_time {
+		font-size: 50px;
+	}
+}
+.stopWatch__subject {
+	@include flex-container;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	.subject__list {
+		@include flex-container;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		color: gray;
+	}
+	.subjectList__bar {
+		@include flex-container;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px;
+		border-bottom: 1px solid gray;
+		.subjectList__playIcon {
+			flex: 1 0 14.3% !important;
+			color: #f9b39b;
+			& :hover {
+				color: black;
+			}
+		}
+		.subjectList__state {
+			flex: 3 0 43% !important;
+			padding-left: 10px;
+		}
+		.subjectList__time {
+			flex: 2 0 29% !important;
+		}
+	}
+}

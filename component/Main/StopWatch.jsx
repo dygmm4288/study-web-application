@@ -10,6 +10,8 @@ import React, {
 import Icon from "../Common/Icon.jsx";
 import SubjectCreate from "../Main/SubjectCreate.jsx";
 import SubjectListBar from "../Main/SubjectListBar.jsx";
+import SubjectUpdate from "../Main/SubjectUpdate.jsx";
+
 Date.prototype.format = function(f) {
 	if (!this.valueOf()) {
 		return " ";
@@ -43,6 +45,12 @@ Date.prototype.format = function(f) {
 		}
 	});
 };
+const include = (arr, predi) => {
+	for (let i = 0, len = arr.length; i < len; i++) {
+		if (predi(arr[i])) return true;
+	}
+	return false;
+};
 const date = new Date();
 
 const today = date.format("yyyy.MM.DD");
@@ -66,14 +74,16 @@ const initialState = {
 	subjects: [],
 	isCreate: false,
 	totalTime: "00:00:00",
-	onUpdate: false
+	onUpdate: false,
+	currentSelect: ""
 };
 
 export const StopWatchContext = createContext({
-	subjects: [],
+	subjects: [{ subjectName: "", timeOn: false }],
 	isCreate: false,
 	dispatch: () => {},
-	onUpdate: false
+	onUpdate: false,
+	currentSelect: ""
 });
 export const COUNT_TOTAL_TIME = "COUNT_TOTAL_TIME";
 export const ADD_SUBJECT = "ADD_SUBJECT";
@@ -85,14 +95,21 @@ export const UPDATE_SUBJECT = "UPDATE_SUBJECT";
 const reducer = (state, action) => {
 	switch (action.type) {
 		case ADD_SUBJECT: {
-			return {
-				...state,
-				subjects: [
-					...state.subjects,
-					{ subjectName: action.subjectName, timeOn: false }
-				],
-				isCreate: false
-			};
+			const exsistSubject = include(state.subjects, subject => {
+				return subject.subjectName === action.subjectName;
+			});
+			if (exsistSubject) {
+				alert("이미 등록된 과목입니다");
+			} else {
+				return {
+					...state,
+					subjects: [
+						...state.subjects,
+						{ subjectName: action.subjectName, timeOn: false }
+					],
+					isCreate: false
+				};
+			}
 		}
 		case IS_CREATE: {
 			const isCreate = action.isCreate ? false : true;
@@ -144,10 +161,11 @@ const reducer = (state, action) => {
 		}
 		case UPDATE_SUBJECT: {
 			const onUpdate = state.onUpdate ? false : true;
-
+			const current = action.subjectName;
 			return {
 				...state,
-				onUpdate: onUpdate
+				onUpdate: onUpdate,
+				currentSelect: current
 			};
 		}
 		case COUNT_TOTAL_TIME: {
@@ -167,7 +185,7 @@ const reducer = (state, action) => {
 };
 const StopWatch = memo(() => {
 	const [state, dispatch] = useReducer(reducer, initialState);
-	const { subjects, isCreate, onUpdate } = state;
+	const { subjects, isCreate, onUpdate, currentSelect } = state;
 
 	const value = useMemo(() => {
 		return {
@@ -184,7 +202,11 @@ const StopWatch = memo(() => {
 		<StopWatchContext.Provider value={value}>
 			<div className="main">
 				{isCreate && <SubjectCreate></SubjectCreate>}
-				{onUpdate && <div>ONUPDATEPAGE</div>}
+				{onUpdate && (
+					<SubjectUpdate subjectName={currentSelect}>
+						ONUPDATEPAGE
+					</SubjectUpdate>
+				)}
 				<div className="stopWatch">
 					<div className="stopWatch__time">
 						<p className="time__date">{today}</p>
