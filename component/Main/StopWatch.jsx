@@ -162,6 +162,9 @@ const reducer = (state, action) => {
 		case UPDATE_SUBJECT: {
 			const onUpdate = state.onUpdate ? false : true;
 			const current = action.subjectName;
+			if (action.changedCheckList) {
+				//서버에서 체크리스트 가져오든가 해야할듯
+			}
 			return {
 				...state,
 				onUpdate: onUpdate,

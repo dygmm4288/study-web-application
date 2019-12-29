@@ -6,7 +6,11 @@
 		overflow: auto;
 	}
 }
+@mixin between {
+	justify-content: space-between;
+}
 $popup-color: #f0e2e2;
+$font-color: #f9b39b;
 .popup {
 	width: 200px;
 	height: 300px;
@@ -34,17 +38,19 @@ $popup-color: #f0e2e2;
 	}
 	.form__select {
 		@include flex-container;
-		justify-content: space-between;
+		@include between;
 		flex-direction: row;
 	}
 	.form__checkList {
 		@include flex-container;
-		justify-content: space-between;
+		@include between;
+		flex: 2 0 auto !important;
+		justify-content: flex-start;
 		align-items: center;
 		flex-direction: column;
 		.form__label {
 			@include flex-container;
-			justify-content: space-between;
+			@include between;
 			align-self: stretch;
 
 			.fa-plus {
@@ -55,5 +61,66 @@ $popup-color: #f0e2e2;
 			@include flex-container;
 			flex-direction: column;
 		}
+	}
+}
+.popup_update {
+	@include flex-container;
+	flex-direction: column;
+	height: 100%;
+	.header {
+		flex: 0.5 0 !important;
+		font-weight: 1000;
+		color: $font-color;
+		font-size: 25px;
+	}
+	.headerCheckList {
+		@include flex-container;
+		@include between;
+		align-items: center;
+		padding: 10px;
+		color: $font-color;
+		font-size: 15px;
+	}
+	.popup__form {
+		flex: 2 0 !important;
+		ul {
+			@include flex-container;
+			@include between;
+			align-items: center;
+			padding: 5px;
+			flex-direction: column;
+		}
+	}
+	.poup__button_bar {
+		@include flex-container;
+	}
+}
+.popup__form {
+	color: $font-color;
+	li {
+		@include flex-container;
+		@include between;
+		align-items: center;
+	}
+	input {
+		border: 0px;
+		background-color: $popup-color;
+		color: black;
+	}
+	i {
+		color: red;
+	}
+}
+.popup__button_bar {
+	@include flex-container;
+	justify-content: space-around;
+	flex: 0.5 0 !important;
+	padding: 5px;
+	* {
+		width: 35%;
+		text-align: center;
+		border: 1px solid #f9b39b;
+		border-radius: 25%;
+		background-color: #d38469;
 	}
 }
