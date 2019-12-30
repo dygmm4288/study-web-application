@@ -52,7 +52,7 @@ $font-color: #f9b39b;
 			@include flex-container;
 			@include between;
 			align-self: stretch;
-
+			align-items: center;
 			.fa-plus {
 				color: black;
 			}
@@ -72,14 +72,23 @@ $font-color: #f9b39b;
 		font-weight: 1000;
 		color: $font-color;
 		font-size: 25px;
+		@include flex-container;
+		justify-content: space-between;
+		align-items: center;
 	}
 	.headerCheckList {
 		@include flex-container;
 		@include between;
 		align-items: center;
 		padding: 10px;
-		color: $font-color;
+		color: black;
 		font-size: 15px;
+		div {
+			* {
+				margin: 2.5px;
+				color: red;
+			}
+		}
 	}
 	.popup__form {
 		flex: 2 0 !important;
@@ -106,9 +115,6 @@ $font-color: #f9b39b;
 		border: 0px;
 		background-color: $popup-color;
 		color: black;
-	}
-	i {
-		color: red;
 	}
 }
 .popup__button_bar {

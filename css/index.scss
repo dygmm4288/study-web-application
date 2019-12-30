@@ -50,6 +50,7 @@ footer {
 	@include row;
 	background-color: $basic-color;
 	padding: 15px;
+	align-items: center;
 }
 
 header .header__logo {

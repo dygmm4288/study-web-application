@@ -34,7 +34,7 @@ const Timer = memo(({ timeOn, subjectName }) => {
 			min: date.getMinutes(),
 			sec: date.getSeconds()
 		});
-		dispatch({ type: COUNT_TOTAL_TIME, timeState });
+		dispatch({ type: COUNT_TOTAL_TIME, timeState, subjectName });
 	}, [timeState]);
 
 	useEffect(() => {

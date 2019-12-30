@@ -51,6 +51,19 @@ const include = (arr, predi) => {
 	}
 	return false;
 };
+const filter = (list, predi) => {
+	const result = [];
+	for (let i = 0, len = list.length; i < len; i++) {
+		if (predi(list[i])) result.push(list[i]);
+	}
+	return result;
+};
+const find = (list, predi) => {
+	for (let i = 0, len = list.length; i < len; i++) {
+		if (predi(list[i])) return list[i];
+	}
+	return null;
+};
 const date = new Date();
 
 const today = date.format("yyyy.MM.DD");
@@ -79,7 +92,7 @@ const initialState = {
 };
 
 export const StopWatchContext = createContext({
-	subjects: [{ subjectName: "", timeOn: false }],
+	subjects: [{ subjectName: "", timeOn: false, time: "0:0:0" }],
 	isCreate: false,
 	dispatch: () => {},
 	onUpdate: false,
@@ -105,7 +118,11 @@ const reducer = (state, action) => {
 					...state,
 					subjects: [
 						...state.subjects,
-						{ subjectName: action.subjectName, timeOn: false }
+						{
+							subjectName: action.subjectName,
+							timeOn: false,
+							time: "0:0:0"
+						}
 					],
 					isCreate: false
 				};
@@ -163,7 +180,22 @@ const reducer = (state, action) => {
 			const onUpdate = state.onUpdate ? false : true;
 			const current = action.subjectName;
 			if (action.changedCheckList) {
-				//서버에서 체크리스트 가져오든가 해야할듯
+				//서버에서 체크리스트 가져오든가 해야할 듯
+				//중복 값 제거 상태 DB에 저장해서 불러오거나 할 수 있도록...
+			}
+			if (action.delete) {
+				//서버에서 체크리스트를 삭제하든가 해야할 듯
+
+				//화면에서 삭제
+				const subjects = [...state.subjects];
+				const resultSubjects = filter(subjects, subject => {
+					return action.subjectName !== subject.subjectName;
+				});
+				return {
+					...state,
+					onUpdate: onUpdate,
+					subjects: resultSubjects
+				};
 			}
 			return {
 				...state,
@@ -174,12 +206,29 @@ const reducer = (state, action) => {
 		case COUNT_TOTAL_TIME: {
 			//뭐가 됐든 무조건 1초씩 증가하면 되겠넹
 			const date = new Date();
+
 			const { hours, min, sec } = parseHours(state.totalTime);
+
 			date.setHours(hours, min, sec + 1);
 			const nextHours = date.format("hh:mm:ss");
+			const timeState = action.timeState;
+			date.setHours(timeState.hours, timeState.min, timeState.sec);
+			const nextTime = date.format("hh:mm:ss");
+			const subjects = [...state.subjects].map(subject => {
+				if (subject.subjectName === action.subjectName) {
+					return {
+						subjectName: action.subjectName,
+						timeOn: true,
+						time: nextTime
+					};
+				} else {
+					return subject;
+				}
+			});
 			return {
 				...state,
-				totalTime: nextHours
+				totalTime: nextHours,
+				subjects: subjects
 			};
 		}
 		default:

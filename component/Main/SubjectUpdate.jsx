@@ -1,7 +1,6 @@
 import React, {
 	useState,
 	memo,
-	useRef,
 	useCallback,
 	useEffect,
 	useContext
@@ -13,23 +12,50 @@ import Button from "../Common/Button.jsx";
 const filter = (list, predi) => {
 	let result = [];
 	for (let i = 0, len = list.length; i < len; i++) {
-		if (predi(list[i])) result.push(list[i]);
+		if (predi(list[i], i)) result.push(list[i]);
 	}
 	return result;
 };
-
+const minus = "fas fa-minus-circle";
+const plus = "fas fa-plus-circle";
+const trash = "fas fa-trash-alt";
 const SubjectUpdate = memo(({ subjectName, checkList }) => {
 	const { dispatch } = useContext(StopWatchContext);
 	const [stateCheckList, setStateCheckList] = useState(checkList);
-	const [value, setValue] = useState("");
-	const minus = "fas fa-minus-circle";
-	const plus = "fas fa-plus-circle";
-	const input = useRef(null);
 
-	const printInput = list => {
-		if (list !== "") return <input type="text" placeholder={list} />;
-		else return <input type="text" placeholder="ex) 영어 1단원..." />;
+	const printInput = (list, i) => {
+		if (list !== "")
+			return (
+				<input
+					name={i}
+					type="text"
+					placeholder={list}
+					onChange={onChangeInput}
+				/>
+			);
+		else
+			return (
+				<input
+					name={i}
+					type="text"
+					placeholder="ex) 영어 1단원..."
+					onChange={onChangeInput}
+				/>
+			);
 	};
+
+	const onChangeInput = e => {
+		const current = e.currentTarget.value;
+		const currentIndex = e.currentTarget.attributes["name"].value;
+		const checkList = [...stateCheckList];
+
+		checkList[currentIndex] = current;
+		setStateCheckList(checkList);
+	};
+
+	const onClickTrash = useCallback(() => {
+		dispatch({ type: UPDATE_SUBJECT, subjectName, delete: true });
+	});
 
 	const onClickIcon = useCallback(() => {
 		if (stateCheckList) {
@@ -45,10 +71,8 @@ const SubjectUpdate = memo(({ subjectName, checkList }) => {
 	const onClickMinus = useCallback(
 		e => {
 			const checkLists = [...stateCheckList];
-			const prevInputValue = window.document.getSelection(e).focusNode
-				.previousSibling.value;
-			console.log("checklists is ", checkLists);
-			console.log(prevInputValue);
+			checkLists.pop();
+			setStateCheckList(checkLists);
 		},
 		[stateCheckList]
 	);
@@ -60,33 +84,46 @@ const SubjectUpdate = memo(({ subjectName, checkList }) => {
 
 	const confirm = useCallback(() => {
 		console.log("confirm");
-		const changedCheckList = stateCheckList
-			? filter(stateCheckList, checklist => {
-					checkList !== "";
-			  })
-			: null;
+		const checkLists = [...stateCheckList];
+		//중복 알아서 제거.
+		const changedCheckList = checkLists.reduce((unique, item) => {
+			return unique.includes(item) ? unique : [...unique, item];
+		}, []);
 
-		const onUpdate = true;
 		dispatch({
 			type: UPDATE_SUBJECT,
 			subjectName,
-			changedCheckList,
-			onUpdate
+			changedCheckList
 		});
-	}, []);
+	}, [stateCheckList]);
 
 	return (
 		<>
 			<div className="popup">
 				<div className="popup_update">
-					<span className="header">{subjectName}</span>
-					<div className="headerCheckList">
-						<span>체크리스트</span>
+					<div className="header">
+						<span>{subjectName}</span>
 						<Icon
 							iconInfo={{
-								className: plus,
-								onClickIcon: onClickIcon
+								className: trash,
+								onClickIcon: onClickTrash
 							}}></Icon>
+					</div>
+					<div className="headerCheckList">
+						<span>체크리스트</span>
+						<div>
+							<Icon
+								iconInfo={{
+									className: plus,
+									onClickIcon: onClickIcon
+								}}></Icon>
+							<Icon
+								iconInfo={{
+									className: minus,
+									onClickIcon: onClickMinus
+								}}
+							/>
+						</div>
 					</div>
 					<form className="popup__form">
 						<ul>
@@ -94,13 +131,7 @@ const SubjectUpdate = memo(({ subjectName, checkList }) => {
 								stateCheckList.map((list, i) => {
 									return (
 										<li key={subjectName + "checklist" + i}>
-											{printInput(list)}
-											<Icon
-												iconInfo={{
-													className: minus,
-													onClickIcon: onClickMinus
-												}}
-											/>
+											{printInput(list, i, subjectName)}
 										</li>
 									);
 								})}

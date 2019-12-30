@@ -8,28 +8,25 @@ const iconInfo = (className, click) => {
 	};
 	return obj;
 };
-const Footer = ({ dispatch, currentPage }) => {
-	const [calendarIcon, setCalendarIcon] = useState(
-		iconInfo("fas fa-calendar-alt", () => {
-			dispatch({ type: "CALENDAR", calendar: true });
-		})
-	);
-	const [bellIcon, setBellIcon] = useState(iconInfo("fas fa-bell", () => {}));
-	const [homeIcon, setHomeIcon] = useState(
-		iconInfo("fas fa-home", () => {
-			dispatch({ type: "STOP_WATCH", stopWatch: true });
-		})
-	);
-	const [charBarIcon, setCharBarIcon] = useState(
-		iconInfo("fas fa-chart-bar", () => {})
-	);
+const calendar = "fas fa-calendar-alt";
+const bell = "fas fa-bell";
+const home = "fas fa-home";
+const chart = "fas fa-chart-bar";
+
+const Footer = ({ onClickPage }) => {
+	console.log(onClickPage);
+	const calendarIcon = iconInfo(calendar, onClickPage[2]);
+	const bellIcon = iconInfo(bell, onClickPage[1]);
+	const homeIcon = iconInfo(home, onClickPage[0]);
+	const chartIcon = iconInfo(chart, onClickPage[3]);
+
 	return (
 		<>
 			<footer>
 				<Icon iconInfo={calendarIcon}></Icon>
 				<Icon iconInfo={bellIcon}></Icon>
 				<Icon iconInfo={homeIcon}></Icon>
-				<Icon iconInfo={charBarIcon}></Icon>
+				<Icon iconInfo={chartIcon}></Icon>
 			</footer>
 		</>
 	);
