@@ -14,7 +14,6 @@ const home = "fas fa-home";
 const chart = "fas fa-chart-bar";
 
 const Footer = ({ onClickPage }) => {
-	console.log(onClickPage);
 	const calendarIcon = iconInfo(calendar, onClickPage[2]);
 	const bellIcon = iconInfo(bell, onClickPage[1]);
 	const homeIcon = iconInfo(home, onClickPage[0]);

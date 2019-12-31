@@ -1,17 +1,12 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo } from "react";
 
-const Logo = ({ logoText }) => {
-	const [logo, setLogo] = useState("");
-	useEffect(() => {
-		console.log("logo use effect");
-		setLogo(logoText);
-	}, [logo]);
+const Logo = memo(({ logoText }) => {
 	return (
 		<>
 			{/* <span className="header__logo">{logo}</span> */}
-			<div className="header__logo">{logo}</div>
+			<div className="header__logo">{logoText}</div>
 		</>
 	);
-};
+});
 
 export default Logo;

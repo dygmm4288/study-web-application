@@ -1,4 +1,11 @@
-import React, { useReducer, useState, memo, useCallback, useMemo } from "react";
+import React, {
+	useReducer,
+	useState,
+	memo,
+	useCallback,
+	useMemo,
+	useEffect
+} from "react";
 import Header from "./Layouts/Header.jsx";
 import Main from "./Layouts/Main.jsx";
 import Footer from "./Layouts/Footer.jsx";
@@ -26,13 +33,16 @@ const App = memo(() => {
 		setPage(CHART_PAGE);
 	}, []);
 
+	useEffect(() => {
+		console.log("app current page is:", page);
+	}, [page]);
+
 	const onClickPages = [
 		onChangeSWPage,
 		onChangeBellPage,
 		onChangeCalendarPage,
 		onChangeChartPage
 	];
-	console.log("the app page is :", page);
 	return (
 		<>
 			<Header page={page}></Header>

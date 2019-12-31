@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Icon from "../Common/Icon.jsx";
 import Logo from "../Common/Logo.jsx";
 import {
@@ -16,8 +16,8 @@ const barIconInfo = {
 	className: "far fa-check-square",
 	onClickIcon: () => {}
 };
-const changePage = page => {
-	console.log(page);
+const changedPage = page => {
+	console.log("page into changedPage is :", page);
 	switch (page) {
 		case STOP_WATCH_PAGE:
 			return "StopWatch Page";
@@ -29,23 +29,16 @@ const changePage = page => {
 			return "Chart Page";
 	}
 };
-const Header = memo(({ page }) => {
-	const [currentPage, setCurrentPage] = useState(changePage(page));
-
-	useEffect(() => {
-		setCurrentPage(changePage(page));
-		console.log("currentPage is :", currentPage);
-	}, [page]);
-
+const Header = ({ page }) => {
 	return (
 		<>
 			<header>
 				<Icon iconInfo={listIconInfo}></Icon>
-				<Logo logoText={currentPage}></Logo>
+				<Logo logoText={changedPage(page)}></Logo>
 				<Icon iconInfo={barIconInfo}></Icon>
 			</header>
 		</>
 	);
-});
+};
 
 export default Header;
