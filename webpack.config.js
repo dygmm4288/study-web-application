@@ -6,7 +6,7 @@ module.exports = {
 	mode: "development",
 	devtool: "eval",
 	resolve: {
-		extensions: [".js", ".jsx"]
+		extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss"]
 	},
 
 	entry: {
@@ -43,6 +43,10 @@ module.exports = {
 				test: /\.scss?/,
 				use: ["style-loader", "css-loader", "sass-loader"],
 				exclude: /node_modules/
+			},
+			{
+				test: /\.tsx?$/,
+				loader: "ts-loader"
 			}
 		]
 	},
