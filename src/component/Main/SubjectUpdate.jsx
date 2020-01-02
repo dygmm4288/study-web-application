@@ -84,8 +84,17 @@ const SubjectUpdate = memo(({ subjectName, checkList }) => {
 
 	const confirm = useCallback(() => {
 		console.log("confirm");
+		if (stateCheckList === undefined) {
+			dispatch({
+				type: UPDATE_SUBJECT,
+				subjectName,
+				changedCheckList: []
+			});
+			return;
+		}
 		const checkLists = [...stateCheckList];
 		//중복 알아서 제거.
+
 		const changedCheckList = checkLists.reduce((unique, item) => {
 			return unique.includes(item) ? unique : [...unique, item];
 		}, []);

@@ -7,10 +7,11 @@ import React, {
 	useEffect
 } from "react";
 import Header from "./Layouts/Header.jsx";
+
 import Main from "./Layouts/Main.jsx";
 import Footer from "./Layouts/Footer.jsx";
 //import "../css/index.css";
-import "../css/index.scss";
+import "../../css/index.scss";
 //page
 export const STOP_WATCH_PAGE = "STOP_WATCH";
 export const BELL_PAGE = "BEll_PAGE";

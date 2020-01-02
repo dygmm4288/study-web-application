@@ -8,9 +8,9 @@ import React, {
 	useReducer
 } from "react";
 import Icon from "../Common/Icon.jsx";
-import SubjectCreate from "../Main/SubjectCreate.jsx";
-import SubjectListBar from "../Main/SubjectListBar.jsx";
-import SubjectUpdate from "../Main/SubjectUpdate.jsx";
+import SubjectCreate from "./SubjectCreate.jsx";
+import SubjectListBar from "./SubjectListBar.jsx";
+import SubjectUpdate from "./SubjectUpdate.jsx";
 
 Date.prototype.format = function(f) {
 	if (!this.valueOf()) {
