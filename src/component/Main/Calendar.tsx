@@ -7,12 +7,15 @@ import {
 	useReducer,
 	useMemo
 } from "react";
+import Td from "../Common/Td";
+import Tr from "../Common/Tr";
+
 import * as Icon from "../Common/Icon.jsx";
 
-interface TableContextProps {
+type TableContextProps = {
 	calendarTable: string[];
 	dispatch: ({ type }: { type: string }) => void;
-}
+};
 export const TableContext = createContext({} as TableContextProps);
 const initalState = {
 	calendarTable: []
@@ -27,7 +30,6 @@ const reducer = (state: InitalState, action: Action): any => {
 		case "INIT_ARRAY":
 			const date = new Date();
 			const calendarTable = fillCalendar(date);
-			console.log(calendarTable);
 
 			return {
 				calendarTable: calendarTable
@@ -35,30 +37,34 @@ const reducer = (state: InitalState, action: Action): any => {
 	}
 };
 
-const renderDays = (): string => {
+const renderDays = (): JSX.Element[] => {
 	const days = ["월", "화", "수", "목", "금", "토", "일"];
-	let result = "<tr>";
-	for (let i = 0; i < 7; i++) {
-		result += `${days[i]}</tr><tr>`;
-	}
-	result = result.replace(/<tr>$/, "");
+
+	const result = days.map((day: string) => {
+		return <Td data={day}></Td>;
+	});
+
 	return result;
 };
-const renderCalendar = (table: number[][]): string => {
-	let resultCalendar = "";
+const renderCalendar = (table: number[][]): JSX.Element[] => {
+	let result: JSX.Element[] = [];
 
-	let row = table.length,
-		cell = table[0].length;
-	for (let i = 0; i < row; i++) {
-		for (let j = 0; j < cell; j++) {
-			if (table[i][j] === 0) {
-				resultCalendar += "<tr></tr>";
-			} else {
-				resultCalendar += `<tr>${table[i][j]}</tr>`;
+	for (let i = 0, row: number = table.length; i < row; i++) {
+		const tdData: JSX.Element[] = table[i].map(
+			(data: number, index: number): JSX.Element => {
+				console.log(data);
+				return data !== 0 ? (
+					<Td data={data.toString()} key={`${index}:${data}`}></Td>
+				) : (
+					<Td data={""} key={`${index}:${data}`}></Td>
+				);
 			}
-		}
+		);
+
+		result[i] = <Tr children={tdData} key={`row${i}`}></Tr>;
+		console.log(`result[${i}] data is : ${result[i]}`);
 	}
-	return resultCalendar;
+	return result;
 };
 
 const initArray = (size: number, length: number): number[][] => {
@@ -129,9 +135,9 @@ const Calendar = () => {
 					<div className="calendar__body">
 						<table>
 							{/* 요일 */}
-							{renderDays()}
+							<Tr children={renderDays()}></Tr>
 							{/* 켈린더가 들어갈 자리 */}
-							{}
+							{renderCalendar(calendarTable)}
 						</table>
 					</div>
 				</div>
