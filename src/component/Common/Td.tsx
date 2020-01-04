@@ -8,7 +8,7 @@ type TdProps = {
 const Td = ({ className, data }: TdProps) => {
 	return (
 		<>
-			<td className="className">{data}</td>
+			<td className={className}>{data}</td>
 		</>
 	);
 };
