@@ -1,8 +1,9 @@
 import * as React from "react";
 type TrProps = {
-	data: string;
+	className?: string;
+	children?: JSX.Element | JSX.Element[];
 };
-const Tr = ({ data }: TrProps) => {
-	return <tr>{data}</tr>;
+const Tr = ({ className, children }: TrProps) => {
+	return <tr className={className}>{children}</tr>;
 };
 export default Tr;

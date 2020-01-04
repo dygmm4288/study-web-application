@@ -1,13 +1,14 @@
 import * as React from "react";
 
 type TdProps = {
-	data: string;
+	data?: string;
+	className?: string;
 };
 
-const Td = ({ data }: TdProps) => {
+const Td = ({ className, data }: TdProps) => {
 	return (
 		<>
-			<td>{data}</td>
+			<td className="className">{data}</td>
 		</>
 	);
 };
