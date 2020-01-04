@@ -8,7 +8,8 @@ const getPage = page => {
 		case STOP_WATCH_PAGE:
 			return <StopWatch />;
 		case CALENDAR_PAGE:
-			return <Calendar />;
+			const date = new Date();
+			return <Calendar date={date} />;
 	}
 };
 
