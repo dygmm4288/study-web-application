@@ -57,39 +57,41 @@ const reducer = (state: InitalState, action: Action): any => {
 			const calendarTable = fillCalendar(date);
 
 			return {
+				...state,
 				calendarTable,
 				onDay: date.format("yyyy.MM")
+			};
+		}
+		case "CHANGE_CURRENT_DATE": {
+			//onDay 2020.1
+			const { onDay, schedules } = state;
+			const selected_date = onDay + "." + action.date;
+
+			if (!selected_date) {
+				return {
+					...state
+				};
+			}
+			const selected_schedule = _.filter(
+				schedules,
+				schedule => schedule.key === selected_date
+			);
+			return {
+				...state,
+				showingSchedules: selected_schedule
 			};
 		}
 	}
 };
 
-const renderDays = (): JSX.Element[] => {
+const renderDays = (): JSX.Element => {
 	const days: string[] = ["일", "월", "화", "수", "목", "금", "토"];
 
 	const result = days.map((day: string) => {
-		return <Td data={day}></Td>;
+		return <div className="calendar__date">{day}</div>;
 	});
 
-	return result;
-};
-const renderCalendar = (table: number[][]): JSX.Element[] => {
-	let result: JSX.Element[] = [];
-
-	for (let i = 0, row: number = table.length; i < row; i++) {
-		const tdData: JSX.Element[] = table[i].map(
-			(data: number, index: number): JSX.Element => {
-				return data !== 0 ? (
-					<Td data={data.toString()} key={`${index}:${data}`}></Td>
-				) : (
-					<Td data={""} key={`${index}:${data}`}></Td>
-				);
-			}
-		);
-
-		result[i] = <Tr children={tdData} key={`row${i}`}></Tr>;
-	}
-	return result;
+	return <div className="calendar__week">{result}</div>;
 };
 
 const initArray = (size: number, length: number): number[][] => {
@@ -136,7 +138,28 @@ const fillCalendar = (today: Date) => {
 };
 const Calendar = () => {
 	const [state, dispatch] = useReducer(reducer, initalState);
-	const { calendarTable, onDay } = state;
+	const { calendarTable, onDay, showingSchedules, schedules } = state;
+
+	const renderCalendar = (table: number[][]): JSX.Element[] => {
+		let result: JSX.Element[] = [];
+		for (let i = 0, row: number = table.length; i < row; i++) {
+			const tdData: JSX.Element[] = table[i].map(
+				(data: number, index: number): JSX.Element => {
+					const thisDate: string | undefined =
+						data !== 0 ? onDay + "." + data.toString() : undefined;
+
+					return data !== 0 ? (
+						<div className="calendar__date">{data}</div>
+					) : (
+						<div className="calendar__date"></div>
+					);
+				}
+			);
+
+			result[i] = <div className="calendar__week">{tdData}</div>;
+		}
+		return result;
+	};
 
 	const value = useMemo(
 		() => ({
@@ -175,28 +198,13 @@ const Calendar = () => {
 							}}></Icon>
 					</div>
 					<div className="calendar__body">
-						<table className="body__table">
-							<thead>
-								{/* <tr><td class = "table__date">요일</td></tr>*/}
-								<Tr
-									className="table__header"
-									children={renderDays()}></Tr>
-							</thead>
-							<tbody>
-								{/* <tr><td>1</td>...<td>2</td><tr>
-									<tr><td>29</td>...<td>30</td><tr>...
-								 */}
-								{renderCalendar(calendarTable)}
-							</tbody>
-						</table>
+						{renderDays()}
+						{renderCalendar(calendarTable)}
 					</div>
 				</div>
 				<div className="calendar__schedule">
 					{/* schedules 어떻게 데이터 처리 할 것인지 */}
-					<Scheduler
-						schedules={[
-							{ content: "음음", color: "black" }
-						]}></Scheduler>
+					<Scheduler schedules={showingSchedules}></Scheduler>
 				</div>
 			</div>
 		</TableContext.Provider>
