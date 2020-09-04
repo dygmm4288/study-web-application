@@ -31,7 +31,7 @@
     "@types/react": "^16.9.17",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react-hot-loader": "^4.12.18",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.2",
